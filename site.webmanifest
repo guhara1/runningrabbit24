@@ -1,0 +1,15 @@
+{
+  "name": "강남 런닝래빗 가라오케",
+  "short_name": "런닝래빗",
+  "description": "강남 역삼동 삼정호텔 유흥1종 정식 허가 가라오케. 서부장 직통 예약 010-3431-0531.",
+  "lang": "ko",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0e0a14",
+  "theme_color": "#0e0a14",
+  "icons": [
+    { "src": "/assets/favicon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/assets/favicon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "/assets/favicon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
