@@ -2,33 +2,53 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --bg: #0e0a14;
-  --bg-soft: #16101f;
-  --bg-dark: #0a0710;
-  --panel: #1d1529;
-  --gold: #d4af6a;
-  --gold-soft: #e6c98a;
-  --rose: #c9447c;
-  --text: #f2ecf5;
-  --muted: #b3a7c2;
-  --line: rgba(212, 175, 106, 0.22);
-  --radius: 16px;
-  --shadow: 0 18px 50px rgba(0, 0, 0, 0.45);
+  /* ===== Premium palette (obsidian · champagne gold · wine) ===== */
+  --bg: #0a0810;
+  --bg-soft: #120d1c;
+  --bg-dark: #060409;
+  --panel: #17121f;
+  --panel-2: #1e1730;
+  --gold: #d9b87a;
+  --gold-soft: #f1dcab;
+  --gold-deep: #b28e4c;
+  --rose: #c75a86;
+  --wine: #6e2940;
+  --text: #f6f2f8;
+  --muted: #aaa0bb;
+  --line: rgba(217, 184, 122, 0.20);
+  --line-soft: rgba(255, 255, 255, 0.06);
+
+  /* ===== Component overlays ===== */
+  --sheen: linear-gradient(135deg, rgba(255, 255, 255, 0.10), rgba(255, 255, 255, 0) 45%);
+  --overlay-panel: radial-gradient(125% 100% at 0% 0%, rgba(217, 184, 122, 0.10), transparent 55%);
+  --overlay-gold: linear-gradient(135deg, rgba(217, 184, 122, 0.16), rgba(199, 90, 134, 0.10) 65%, transparent);
+  --glass: rgba(16, 12, 23, 0.72);
+
+  /* ===== Fonts ===== */
+  --font-sans: "Pretendard Variable", Pretendard, "Noto Sans KR", system-ui, sans-serif;
+  --font-display: "Noto Serif KR", "Pretendard Variable", serif;
+
+  --radius: 18px;
+  --radius-sm: 12px;
+  --shadow: 0 22px 60px rgba(0, 0, 0, 0.50);
+  --shadow-gold: 0 16px 44px rgba(217, 184, 122, 0.16);
   --max: 1160px;
 }
 
 html { scroll-behavior: smooth; scroll-padding-top: 80px; }
 
 body {
-  font-family: "Noto Sans KR", system-ui, sans-serif;
+  font-family: var(--font-sans);
   background: var(--bg);
   color: var(--text);
   line-height: 1.75;
+  letter-spacing: -0.01em;
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
   overflow-x: hidden;
 }
 
-h1, h2, h3 { font-family: "Noto Serif KR", "Noto Sans KR", serif; line-height: 1.35; }
+h1, h2, h3 { font-family: var(--font-display); line-height: 1.35; letter-spacing: -0.005em; }
 
 a { color: inherit; text-decoration: none; }
 img, iframe { max-width: 100%; display: block; }
@@ -62,8 +82,9 @@ img, iframe { max-width: 100%; display: block; }
 /* ===== Header ===== */
 .site-header {
   position: sticky; top: 0; z-index: 50;
-  background: rgba(14, 10, 20, 0.86);
-  backdrop-filter: blur(12px);
+  background: var(--glass);
+  -webkit-backdrop-filter: saturate(140%) blur(16px);
+  backdrop-filter: saturate(140%) blur(16px);
   border-bottom: 1px solid var(--line);
 }
 .header-inner { display: flex; align-items: center; gap: 18px; height: 70px; }
@@ -489,3 +510,71 @@ a.info-value { color: var(--gold-soft); }
   .area-links { grid-template-columns: 1fr; }
   .rating-summary { gap: 14px; padding: 22px; }
 }
+
+/* ============================================================
+   Premium component overlays
+   - 패널형 컴포넌트에 골드 글로우 오버레이 + 상단 시인(sheen) 하이라이트
+   ============================================================ */
+.card, .why-card, .review-card, .area-links a, .location-info,
+.related-grid a, .byline, .faq-item, .info-bar {
+  background-image: var(--overlay-panel);
+  background-color: var(--panel);
+}
+.room-card { background-image: var(--overlay-panel); }
+
+.card, .room-card, .why-card, .review-card, .area-links a,
+.related-grid a, .faq-item, .price-note, .rating-summary, .contact-cta {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+.card:hover, .room-card:hover, .why-card:hover,
+.review-card:hover, .area-links a:hover, .related-grid a:hover {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07), var(--shadow-gold);
+}
+
+/* 골드 버튼 시인 오버레이 */
+.btn-primary, .header-call, .mobile-call, .float-call { position: relative; overflow: hidden; }
+.btn-primary::after, .header-call::after, .float-call::after {
+  content: ""; position: absolute; inset: 0; background: var(--sheen); pointer-events: none;
+}
+
+/* 다크 섹션 내 패널은 한 톤 더 깊게 */
+.section-dark .card, .section-dark .why-card,
+.section-dark .review-card, .section-dark .area-links a,
+.section-dark .related-grid a { background-color: var(--bg); }
+
+/* 히어로/페이지 히어로 상단 골드 헤어라인 */
+.hero, .page-hero { position: relative; }
+.hero::before, .page-hero::before {
+  content: ""; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent); opacity: .5;
+}
+
+/* 평점 점수 골드 그라데이션 텍스트 */
+.rating-score .num {
+  background: linear-gradient(135deg, var(--gold-soft), var(--gold));
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* 본문 내 인용/외부 참고 링크 */
+.prose a:not(.btn) {
+  color: var(--gold-soft); border-bottom: 1px solid var(--line);
+  transition: color .2s, border-color .2s;
+}
+.prose a:not(.btn):hover { color: var(--gold); border-color: var(--gold); }
+.prose a[target="_blank"]::after { content: " ↗"; font-size: .82em; opacity: .7; }
+
+/* 지역 페이지 작성자 바이라인 (E-E-A-T) */
+.author-box {
+  display: flex; align-items: flex-start; gap: 16px; margin: 36px 0 0;
+  padding: 22px 24px; background-image: var(--overlay-panel); background-color: var(--panel);
+  border: 1px solid var(--line); border-radius: var(--radius);
+}
+.author-box .avatar {
+  flex: 0 0 auto; width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center;
+  font-family: var(--font-display); font-weight: 700; font-size: 1.15rem; color: #1a1320;
+  background: linear-gradient(135deg, var(--gold), var(--gold-soft));
+}
+.author-box .meta strong { display: block; color: var(--gold-soft); font-size: .96rem; margin-bottom: 4px; }
+.author-box .meta span { display: block; color: var(--muted); font-size: .88rem; line-height: 1.65; }
+.author-box .meta time { display: block; color: var(--muted); font-size: .8rem; opacity: .8; margin-top: 6px; }
