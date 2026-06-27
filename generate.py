@@ -42,6 +42,9 @@ NAV_ITEMS = [
 # ---- 브랜드 표기 (런닝래빗 = 달토) ----
 BRAND_ALT = ["런닝래빗", "달토", "런닝래빗 달토", "강남 런닝래빗 달토 가라오케"]
 
+# ---- 사이트맵·RSS 생성용 페이지 수집 (canonical, title, desc) ----
+PAGES = []
+
 # ---- 고객 후기 & 평점 데이터 (샘플) ----
 AGG_RATING = {"value": "4.9", "count": "138", "best": "5", "worst": "1"}
 REVIEWS = [
@@ -220,6 +223,7 @@ def related_html(links):
 
 def render(path, active, title, desc, canonical, breadcrumbs, h1, lead,
            body, related=None, extra_schema=None):
+    PAGES.append((canonical, title, desc))
     # 업소(NightClub) + 평점/후기 스키마를 전 페이지 공통 삽입
     schemas = [business_schema(canonical), crumbs_jsonld(breadcrumbs)]
     if extra_schema:
@@ -253,6 +257,8 @@ def render(path, active, title, desc, canonical, breadcrumbs, h1, lead,
   <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
   <link rel="manifest" href="/site.webmanifest" />
+  <link rel="alternate" type="application/rss+xml" title="강남 가라오케 런닝래빗(달토) RSS" href="/rss.xml" />
+  <link rel="sitemap" type="application/xml" title="사이트맵" href="/sitemap.xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
@@ -1190,4 +1196,71 @@ render(
     ],
 )
 
+# ====================== 사이트맵 & RSS 생성 ======================
+import datetime
+
+BUILD = datetime.datetime(2026, 6, 27, 9, 0, 0)
+SITEMAP_DATE = BUILD.strftime("%Y-%m-%d")
+RSS_DATE = BUILD.strftime("%a, %d %b %Y %H:%M:%S +0900")
+HOME_TITLE = "강남 가라오케 런닝래빗 | 달토 24시 연중무휴"
+HOME_DESC = ("강남 역삼·역삼동 삼정호텔 런닝래빗 달토 가라오케 1번지. 유흥1종 정식 허가, "
+             "지하 1·2층 VIP룸, 정찰제. 24시 상시 대기, 직통 전화하면 라인업 실시간 공개!")
+
+
+def xml_esc(s):
+    return (s.replace("&", "&amp;").replace("<", "&lt;")
+             .replace(">", "&gt;").replace('"', "&quot;"))
+
+
+# 홈을 맨 앞에 두고, render() 순서대로 수집된 하위 페이지를 붙인다
+ALL_PAGES = [(DOMAIN + "/", HOME_TITLE, HOME_DESC)] + PAGES
+
+
+def _sm_meta(url):
+    p = url[len(DOMAIN):]
+    if p == "/":
+        return "daily", "1.0"
+    if p.count("/") == 2 and p.endswith("/"):  # /about/, /system/, /location/ ...
+        return "weekly", "0.9"
+    return "weekly", "0.8"
+
+
+def _write(path, text):
+    full = os.path.join(os.path.dirname(__file__), path)
+    with open(full, "w", encoding="utf-8") as f:
+        f.write(text)
+
+
+# --- sitemap.xml ---
+sm = ['<?xml version="1.0" encoding="UTF-8"?>',
+      '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
+for url, _t, _d in ALL_PAGES:
+    cf, pr = _sm_meta(url)
+    sm.append(f'  <url><loc>{url}</loc><lastmod>{SITEMAP_DATE}</lastmod>'
+              f'<changefreq>{cf}</changefreq><priority>{pr}</priority></url>')
+sm.append('</urlset>')
+_write("sitemap.xml", "\n".join(sm) + "\n")
+
+# --- rss.xml (네이버 서치어드바이저 RSS 제출용) ---
+items = ""
+for url, title, desc in ALL_PAGES:
+    items += (f'    <item><title>{xml_esc(title)}</title>'
+              f'<link>{url}</link>'
+              f'<guid isPermaLink="true">{url}</guid>'
+              f'<description>{xml_esc(desc)}</description>'
+              f'<pubDate>{RSS_DATE}</pubDate></item>\n')
+rss = (f'<?xml version="1.0" encoding="UTF-8"?>\n'
+       f'<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">\n'
+       f'<channel>\n'
+       f'  <title>강남 가라오케 런닝래빗(달토)</title>\n'
+       f'  <link>{DOMAIN}/</link>\n'
+       f'  <atom:link href="{DOMAIN}/rss.xml" rel="self" type="application/rss+xml" />\n'
+       f'  <description>강남 역삼동 삼정호텔 런닝래빗 달토 가라오케 — 24시 연중무휴, 정찰제, 지역별 안내·고객 후기</description>\n'
+       f'  <language>ko</language>\n'
+       f'  <lastBuildDate>{RSS_DATE}</lastBuildDate>\n'
+       f'  <generator>runningrabbit24 static generator</generator>\n'
+       f'{items}</channel>\n</rss>\n')
+_write("rss.xml", rss)
+
+print(f"\\nsitemap.xml / rss.xml 생성 완료 ({len(ALL_PAGES)} URL)")
 print("\\n생성 완료.")
