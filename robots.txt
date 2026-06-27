@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.runningrabbit24.com/sitemap.xml
+Sitemap: https://runningrabbit24.com/sitemap.xml
