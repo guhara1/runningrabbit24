@@ -1199,9 +1199,12 @@ render(
 # ====================== 사이트맵 & RSS 생성 ======================
 import datetime
 
-BUILD = datetime.datetime(2026, 6, 27, 9, 0, 0)
+BUILD = datetime.datetime(2026, 7, 8, 9, 0, 0)
 SITEMAP_DATE = BUILD.strftime("%Y-%m-%d")
 RSS_DATE = BUILD.strftime("%a, %d %b %Y %H:%M:%S +0900")
+
+# IndexNow 키 (네이버·빙 즉시 색인 요청용) — 루트에 {KEY}.txt 로 공개 서빙
+INDEXNOW_KEY = "c7d2a91e6b4f80351da9e3c7b0f6284a"
 HOME_TITLE = "강남 가라오케 런닝래빗 | 달토 24시 연중무휴"
 HOME_DESC = ("강남 역삼·역삼동 삼정호텔 런닝래빗 달토 가라오케 1번지. 유흥1종 정식 허가, "
              "지하 1·2층 VIP룸, 정찰제. 24시 상시 대기, 직통 전화하면 라인업 실시간 공개!")
@@ -1261,6 +1264,10 @@ rss = (f'<?xml version="1.0" encoding="UTF-8"?>\n'
        f'  <generator>runningrabbit24 static generator</generator>\n'
        f'{items}</channel>\n</rss>\n')
 _write("rss.xml", rss)
+
+# --- IndexNow 키 파일 (네이버·빙 즉시 색인 요청 시 소유권 검증용) ---
+_write(f"{INDEXNOW_KEY}.txt", INDEXNOW_KEY + "\n")
+print(f"IndexNow 키 파일 생성: /{INDEXNOW_KEY}.txt")
 
 print(f"\\nsitemap.xml / rss.xml 생성 완료 ({len(ALL_PAGES)} URL)")
 print("\\n생성 완료.")
