@@ -4,7 +4,7 @@
 import json, os
 
 PHONE = "010-3431-0531"
-DOMAIN = "https://runningrabbit24.com"
+DOMAIN = "https://choilove21.com"
 
 # ---- 공유 네비게이션 (루트 상대경로) ----
 NAV_ITEMS = [

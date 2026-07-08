@@ -23,5 +23,5 @@ Allow: /
 User-agent: bingbot
 Allow: /
 
-Sitemap: https://runningrabbit24.com/sitemap.xml
-Sitemap: https://runningrabbit24.com/rss.xml
+Sitemap: https://choilove21.com/sitemap.xml
+Sitemap: https://choilove21.com/rss.xml
