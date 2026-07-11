@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="런닝래빗 파비콘">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="에테르 파비콘">
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0" stop-color="#241a34"/>
@@ -11,20 +11,8 @@
   </defs>
   <rect x="2" y="2" width="60" height="60" rx="15" fill="url(#bg)"/>
   <rect x="2.75" y="2.75" width="58.5" height="58.5" rx="14.25" fill="none" stroke="#d4af6a" stroke-opacity="0.65" stroke-width="1.5"/>
-  <!-- 토끼: 두 귀 + 머리 -->
-  <g fill="url(#gold)">
-    <ellipse cx="26" cy="22" rx="4.6" ry="13" transform="rotate(-15 26 22)"/>
-    <ellipse cx="38" cy="22" rx="4.6" ry="13" transform="rotate(15 38 22)"/>
-    <circle cx="32" cy="40" r="13.5"/>
-    <circle cx="47.5" cy="46" r="3.2"/>
-  </g>
-  <!-- 귀 안쪽 -->
-  <g fill="#b3477a" opacity="0.85">
-    <ellipse cx="26" cy="22" rx="1.9" ry="8.5" transform="rotate(-15 26 22)"/>
-    <ellipse cx="38" cy="22" rx="1.9" ry="8.5" transform="rotate(15 38 22)"/>
-  </g>
-  <!-- 눈/코 -->
-  <circle cx="27" cy="39" r="1.7" fill="#1a1320"/>
-  <circle cx="37" cy="39" r="1.7" fill="#1a1320"/>
-  <circle cx="32" cy="44" r="1.7" fill="#b3477a"/>
+  <!-- 에테르(Aether) 모노그램 Æ -->
+  <text x="32" y="33" fill="url(#gold)" font-family="'Noto Serif KR','Times New Roman',serif" font-size="38" font-weight="700" text-anchor="middle" dominant-baseline="central" letter-spacing="-1">Æ</text>
+  <!-- 하단 악센트 라인 -->
+  <rect x="20" y="49" width="24" height="2.2" rx="1.1" fill="url(#gold)" opacity="0.85"/>
 </svg>
