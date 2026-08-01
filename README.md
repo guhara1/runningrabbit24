@@ -1,6 +1,6 @@
-# 강남 가라오케 에테르 — 공식 예약 랜딩 페이지
+# 강남 일프로 에테르 — 공식 예약 랜딩 페이지
 
-강남 역삼동 차병원사거리에 위치한 가라오케 **에테르** 의
+강남 역삼동 차병원사거리에 위치한 일프로 **에테르** 의
 공식 예약 안내 웹사이트입니다. 구글 SEO(검색엔진 최적화)에 맞춰 설계된 정적(static) 사이트입니다.
 
 ## 핵심 정보
@@ -33,11 +33,11 @@
 │   └── interior.html      # 업장 전경 (지하 1·2층)
 ├── location/index.html    # 오시는 길 · 지역 (지역별 안내 허브)
 ├── area/                   # 지역 롱테일 페이지 (내부링크 강화)
-│   ├── yeoksam.html        # 역삼역 가라오케
-│   ├── gangnam-station.html# 강남역 가라오케
-│   ├── sinnonhyeon.html    # 신논현역 가라오케
-│   ├── eonju.html          # 언주역 가라오케
-│   └── seolleung.html      # 선릉역 가라오케
+│   ├── yeoksam.html        # 역삼역 일프로
+│   ├── gangnam-station.html# 강남역 일프로
+│   ├── sinnonhyeon.html    # 신논현역 일프로
+│   ├── eonju.html          # 언주역 일프로
+│   └── seolleung.html      # 선릉역 일프로
 ├── reviews/index.html      # 고객 후기 & 평점 (Review · AggregateRating)
 ├── booking/
 │   ├── index.html         # 예약 & 문의
@@ -63,7 +63,7 @@
 - **페이지별 메타 태그**: title, description, canonical (전부 개별 지정)
 - **Open Graph / Twitter Card** + 선호 이미지(og:image, 1200×630)
 - **구조화 데이터(JSON-LD) — 전 페이지 공통 + 페이지별**
-  - `NightClub` / LocalBusiness — 상호·별칭(해피해피)·주소·전화·영업시간·좌표·`areaServed` (전 페이지 공통)
+  - `NightClub` / LocalBusiness — 상호·별칭(주파수)·주소·전화·영업시간·좌표·`areaServed` (전 페이지 공통)
   - `AggregateRating` + `Review` — 평점(4.9)·후기 데이터 (전 페이지 공통, 후기 페이지에 전체 노출)
   - `BreadcrumbList` — 전 하위 페이지
   - `FAQPage` — 자주 묻는 질문 (리치 결과)
@@ -78,7 +78,7 @@
 - **소개** → 에테르 소개 · 인사말 & 매니저 소개 · 고객 후기 & 평점
 - **시스템 & 주류** → 시스템 안내 · 이용 요금 & 세트 · 단체 & 비즈니스 미팅 · 생일파티 & 회식 이벤트
 - **갤러리 & 시설** → 갤러리 & 시설 · VIP 룸 인테리어 · 업장 전경 (지하 1·2층)
-- **오시는 길 · 지역** → 오시는 길 · 지도 · 역삼역 · 강남역 · 신논현역 · 언주역 · 선릉역 가라오케
+- **오시는 길 · 지역** → 오시는 길 · 지도 · 역삼역 · 강남역 · 신논현역 · 언주역 · 선릉역 일프로
 - **예약 & 문의** → 예약 & 문의 · 자주 묻는 질문(FAQ)
 
 ## 로컬 미리보기
