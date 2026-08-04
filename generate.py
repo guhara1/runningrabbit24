@@ -1205,7 +1205,7 @@ RSS_DATE = BUILD.strftime("%a, %d %b %Y %H:%M:%S +0900")
 
 # IndexNow 키 (네이버·빙 즉시 색인 요청용) — 루트에 {KEY}.txt 로 공개 서빙
 INDEXNOW_KEY = "c7d2a91e6b4f80351da9e3c7b0f6284a"
-HOME_TITLE = "강남 에테르 일프로 | 주파수 논현동•신사동•언주역•신사역 프리미엄 일프로"
+HOME_TITLE = "강남 에테르 일프로 | 주파수 논현동•신사동•언주역•신사역"
 HOME_DESC = "강남 논현동•신사동•언주역•신사역 위치. 에테르 Aether 주파수 일프로 1번지 연중무휴."
 
 
