@@ -4,7 +4,10 @@
 import json, os
 
 PHONE = "010-3431-0531"
-DOMAIN = "https://choilove21.com"
+# 도메인 미연결 상태. 빈 값이면 canonical·og:url·JSON-LD가 모두 상대경로로
+# 출력되고, 절대 URL이 필요한 sitemap.xml·rss.xml·IndexNow 키는 생성되지 않는다.
+# 도메인을 다시 연결할 때 여기에 "https://예시.com" 형태로 넣고 재생성하면 원복된다.
+DOMAIN = ""
 
 # ---- 공유 네비게이션 (루트 상대경로) ----
 NAV_ITEMS = [
@@ -233,6 +236,9 @@ def render(path, active, title, desc, canonical, breadcrumbs, h1, lead,
         json.dumps(s, ensure_ascii=False, indent=2).replace("\n", "\n  ") +
         "\n  </script>" for s in schemas)
     rel = related_html(related) if related else ""
+    # 사이트맵·RSS는 절대 URL이 필요해 도메인이 없으면 생성되지 않으므로 링크도 뺀다
+    feed_links = ('  <link rel="alternate" type="application/rss+xml" title="강남 일프로 에테르(주파수) RSS" href="/rss.xml" />\n'
+                  '  <link rel="sitemap" type="application/xml" title="사이트맵" href="/sitemap.xml" />\n') if DOMAIN else ""
     html = f'''<!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -257,9 +263,7 @@ def render(path, active, title, desc, canonical, breadcrumbs, h1, lead,
   <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
   <link rel="manifest" href="/site.webmanifest" />
-  <link rel="alternate" type="application/rss+xml" title="강남 일프로 에테르(주파수) RSS" href="/rss.xml" />
-  <link rel="sitemap" type="application/xml" title="사이트맵" href="/sitemap.xml" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
+{feed_links}  <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;600;700;900&display=swap" rel="stylesheet" />
@@ -1233,40 +1237,45 @@ def _write(path, text):
         f.write(text)
 
 
-# --- sitemap.xml ---
-sm = ['<?xml version="1.0" encoding="UTF-8"?>',
-      '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
-for url, _t, _d in ALL_PAGES:
-    cf, pr = _sm_meta(url)
-    sm.append(f'  <url><loc>{url}</loc><lastmod>{SITEMAP_DATE}</lastmod>'
-              f'<changefreq>{cf}</changefreq><priority>{pr}</priority></url>')
-sm.append('</urlset>')
-_write("sitemap.xml", "\n".join(sm) + "\n")
+# sitemap.xml·rss.xml·IndexNow 키는 모두 절대 URL(도메인)이 있어야 의미가 있다.
+# 도메인 미연결 상태에서는 생성하지 않는다.
+if DOMAIN:
+    # --- sitemap.xml ---
+    sm = ['<?xml version="1.0" encoding="UTF-8"?>',
+          '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
+    for url, _t, _d in ALL_PAGES:
+        cf, pr = _sm_meta(url)
+        sm.append(f'  <url><loc>{url}</loc><lastmod>{SITEMAP_DATE}</lastmod>'
+                  f'<changefreq>{cf}</changefreq><priority>{pr}</priority></url>')
+    sm.append('</urlset>')
+    _write("sitemap.xml", "\n".join(sm) + "\n")
 
-# --- rss.xml (네이버 서치어드바이저 RSS 제출용) ---
-items = ""
-for url, title, desc in ALL_PAGES:
-    items += (f'    <item><title>{xml_esc(title)}</title>'
-              f'<link>{url}</link>'
-              f'<guid isPermaLink="true">{url}</guid>'
-              f'<description>{xml_esc(desc)}</description>'
-              f'<pubDate>{RSS_DATE}</pubDate></item>\n')
-rss = (f'<?xml version="1.0" encoding="UTF-8"?>\n'
-       f'<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">\n'
-       f'<channel>\n'
-       f'  <title>강남 일프로 에테르(주파수)</title>\n'
-       f'  <link>{DOMAIN}/</link>\n'
-       f'  <atom:link href="{DOMAIN}/rss.xml" rel="self" type="application/rss+xml" />\n'
-       f'  <description>강남 역삼동 차병원사거리 에테르 주파수 일프로 — 24시 연중무휴, 정찰제, 지역별 안내·고객 후기</description>\n'
-       f'  <language>ko</language>\n'
-       f'  <lastBuildDate>{RSS_DATE}</lastBuildDate>\n'
-       f'  <generator>에테르 static generator</generator>\n'
-       f'{items}</channel>\n</rss>\n')
-_write("rss.xml", rss)
+    # --- rss.xml (네이버 서치어드바이저 RSS 제출용) ---
+    items = ""
+    for url, title, desc in ALL_PAGES:
+        items += (f'    <item><title>{xml_esc(title)}</title>'
+                  f'<link>{url}</link>'
+                  f'<guid isPermaLink="true">{url}</guid>'
+                  f'<description>{xml_esc(desc)}</description>'
+                  f'<pubDate>{RSS_DATE}</pubDate></item>\n')
+    rss = (f'<?xml version="1.0" encoding="UTF-8"?>\n'
+           f'<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">\n'
+           f'<channel>\n'
+           f'  <title>강남 일프로 에테르(주파수)</title>\n'
+           f'  <link>{DOMAIN}/</link>\n'
+           f'  <atom:link href="{DOMAIN}/rss.xml" rel="self" type="application/rss+xml" />\n'
+           f'  <description>강남 역삼동 차병원사거리 에테르 주파수 일프로 — 24시 연중무휴, 정찰제, 지역별 안내·고객 후기</description>\n'
+           f'  <language>ko</language>\n'
+           f'  <lastBuildDate>{RSS_DATE}</lastBuildDate>\n'
+           f'  <generator>에테르 static generator</generator>\n'
+           f'{items}</channel>\n</rss>\n')
+    _write("rss.xml", rss)
 
-# --- IndexNow 키 파일 (네이버·빙 즉시 색인 요청 시 소유권 검증용) ---
-_write(f"{INDEXNOW_KEY}.txt", INDEXNOW_KEY + "\n")
-print(f"IndexNow 키 파일 생성: /{INDEXNOW_KEY}.txt")
+    # --- IndexNow 키 파일 (네이버·빙 즉시 색인 요청 시 소유권 검증용) ---
+    _write(f"{INDEXNOW_KEY}.txt", INDEXNOW_KEY + "\n")
+    print(f"IndexNow 키 파일 생성: /{INDEXNOW_KEY}.txt")
 
-print(f"\\nsitemap.xml / rss.xml 생성 완료 ({len(ALL_PAGES)} URL)")
+    print(f"\\nsitemap.xml / rss.xml 생성 완료 ({len(ALL_PAGES)} URL)")
+else:
+    print("\\n도메인 미연결 — sitemap.xml / rss.xml / IndexNow 키 생성 건너뜀")
 print("\\n생성 완료.")
