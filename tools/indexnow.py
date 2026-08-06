@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """IndexNow 즉시 색인 제출기 — 네이버·빙·얀덱스에 sitemap.xml의 모든 URL을 한 번에 통보.
 
-사용법 (도메인 연결 + 배포가 끝난 뒤 실행):
+사용법 (사이트가 aetherbest118.com 에 실제 배포된 뒤 실행):
     python3 tools/indexnow.py
 
 동작:
@@ -18,7 +18,7 @@ import re
 import sys
 import urllib.request
 
-HOST = ""  # 도메인 미연결. 재연결 시 예: "example.com"
+HOST = "aetherbest118.com"
 KEY = "c7d2a91e6b4f80351da9e3c7b0f6284a"
 KEY_LOCATION = f"https://{HOST}/{KEY}.txt"
 ENDPOINT = "https://api.indexnow.org/indexnow"

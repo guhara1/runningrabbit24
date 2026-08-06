@@ -4,10 +4,9 @@
 import json, os
 
 PHONE = "010-3431-0531"
-# 도메인 미연결 상태. 빈 값이면 canonical·og:url·JSON-LD가 모두 상대경로로
-# 출력되고, 절대 URL이 필요한 sitemap.xml·rss.xml·IndexNow 키는 생성되지 않는다.
-# 도메인을 다시 연결할 때 여기에 "https://예시.com" 형태로 넣고 재생성하면 원복된다.
-DOMAIN = ""
+# 사이트 도메인. 빈 값이면 canonical·og:url·JSON-LD가 상대경로로 출력되고,
+# 절대 URL이 필요한 sitemap.xml·rss.xml·IndexNow 키는 생성되지 않는다.
+DOMAIN = "https://aetherbest118.com"
 
 # ---- 공유 네비게이션 (루트 상대경로) ----
 NAV_ITEMS = [
@@ -1203,7 +1202,7 @@ render(
 # ====================== 사이트맵 & RSS 생성 ======================
 import datetime
 
-BUILD = datetime.datetime(2026, 7, 8, 9, 0, 0)
+BUILD = datetime.datetime(2026, 8, 6, 9, 0, 0)
 SITEMAP_DATE = BUILD.strftime("%Y-%m-%d")
 RSS_DATE = BUILD.strftime("%a, %d %b %Y %H:%M:%S +0900")
 
