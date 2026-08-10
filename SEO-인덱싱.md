@@ -5,15 +5,34 @@
 
 ---
 
-## ⚠️ 먼저 — 소유확인 파일을 새로 발급받아야 합니다
+## 소유확인 현황
 
-루트의 인증 파일 2종은 **이전 도메인(choilove21.com) 속성에서 발급된 토큰**입니다.
+| 검색엔진 | 방식 | 상태 |
+|---|---|---|
+| 구글 | `index.html`의 `google-site-verification` 메타 태그 | ✅ **신규 도메인용으로 등록 완료** |
+| 네이버 | 루트의 `naver82e7d8c96600f8ee945bb984b9f63154.html` | ⚠️ **재발급 필요** |
 
-- `google7cb5bedbb9af927c.html`
-- `naver82e7d8c96600f8ee945bb984b9f63154.html`
+### 구글 — 완료
 
-**신규 도메인은 이 파일로 인증되지 않습니다.** 각 콘솔에서 `aetherbest118.com`을
-새 속성으로 추가하고, 새로 받은 파일을 루트에 올린 뒤 구 파일을 지우십시오.
+메인페이지 `<head>`에 메타 태그가 들어 있습니다. 구글은 **메인페이지에만** 있으면
+인증되므로 하위 페이지에는 넣지 않습니다.
+
+```html
+<meta name="google-site-verification" content="-u4-g1WyWAhQskpsajJ8JDJO8gvEAhjusGq59XqOfhs" />
+```
+
+> 인증 후에도 **절대 지우지 마십시오.** 태그가 사라지면 소유확인이 해제되어
+> 서치콘솔 데이터 접근이 끊깁니다.
+
+구 도메인용 파일 `google7cb5bedbb9af927c.html`은 이제 쓰이지 않습니다. 남겨 둬도
+무해하지만 정리하셔도 됩니다.
+
+### 네이버 — 재발급 필요
+
+`naver82e7d8c96600f8ee945bb984b9f63154.html`은 **이전 도메인(choilove21.com)
+속성에서 발급된 토큰**이라 신규 도메인에서는 인증되지 않습니다. 서치어드바이저에서
+`aetherbest118.com`을 새 속성으로 추가하고, 새로 받은 파일을 루트에 올린 뒤
+구 파일을 지우십시오.
 
 `IndexNow` 키(`c7d2a91e6b4f80351da9e3c7b0f6284a.txt`)는 도메인에 종속되지 않으므로
 그대로 재사용 가능합니다. 새 도메인 루트에서 서빙되기만 하면 됩니다.
@@ -28,8 +47,9 @@
 - https://aetherbest118.com/rss.xml
 - https://aetherbest118.com/robots.txt
 - https://aetherbest118.com/c7d2a91e6b4f80351da9e3c7b0f6284a.txt ← IndexNow 키
-- 신규 발급받은 구글 인증 파일
 - 신규 발급받은 네이버 인증 파일
+
+구글은 파일이 아니라 메인페이지 메타 태그로 인증하므로 별도 URL 확인이 필요 없습니다.
 
 ---
 
@@ -58,7 +78,7 @@ https://searchadvisor.naver.com → 사이트 등록 `aetherbest118.com`
 
 https://search.google.com/search-console → 속성 추가 `https://aetherbest118.com/`
 
-1. **소유확인**: 신규 발급 HTML 파일 방식으로 확인.
+1. **소유확인**: 이미 메인페이지 메타 태그로 등록 완료 — 서치콘솔에서 `HTML 태그` 방식 선택 후 확인 누르면 됩니다.
 2. **색인 → Sitemaps**: `sitemap.xml` 제출.
 3. **URL 검사**: 메인 및 주요 페이지 URL을 검사 → **색인 생성 요청**(가장 빠른 단건 색인).
 
