@@ -1,6 +1,5 @@
 # 강남 일프로 에테르(주파수) — robots.txt
-# 도메인 미연결 상태. 크롤 차단(Disallow)은 두지 않는다 —
-# 차단하면 크롤러가 페이지 소멸을 확인하지 못해 기존 색인이 오히려 오래 남는다.
+# 전 검색엔진 전체 색인 허용 + 사이트맵·RSS 등록
 
 User-agent: *
 Allow: /
@@ -23,3 +22,6 @@ Allow: /
 # Bing
 User-agent: bingbot
 Allow: /
+
+Sitemap: https://aetherbest118.com/sitemap.xml
+Sitemap: https://aetherbest118.com/rss.xml
